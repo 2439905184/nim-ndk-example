@@ -1,3 +1,3 @@
 proc NimMain(){.importc.}
-proc hello() = 
-  echo "hello"
+proc hello():string = 
+  return "nim hello"
