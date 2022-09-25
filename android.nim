@@ -1,3 +1,3 @@
 proc NimMain(){.importc.}
-proc hello():string = 
+proc hello*():string {.exportc.}= 
   return "nim hello"

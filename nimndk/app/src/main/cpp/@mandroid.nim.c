@@ -16,13 +16,76 @@
 #undef far
 #undef powerpc
 #undef unix
-#define nimfr_(x, y)
-#define nimln_(x, y)
+  #  define nimfr_(proc, file) \
+      TFrame FR_; \
+      FR_.procname = proc; FR_.filename = file; FR_.line = 0; FR_.len = 0; nimFrame(&FR_);
+
+  #  define nimfrs_(proc, file, slots, length) \
+      struct {TFrame* prev;NCSTRING procname;NI line;NCSTRING filename; NI len; VarSlot s[slots];} FR_; \
+      FR_.procname = proc; FR_.filename = file; FR_.line = 0; FR_.len = length; nimFrame((TFrame*)&FR_);
+
+  #  define nimln_(n, file) \
+      FR_.line = n; FR_.filename = file;
+  typedef struct NimStringDesc NimStringDesc;
+typedef struct TGenericSeq TGenericSeq;
+struct TGenericSeq {
+NI len;
+NI reserved;
+};
+struct NimStringDesc {
+  TGenericSeq Sup;
+NIM_CHAR data[SEQ_DECL_SIZE];
+};
+N_LIB_PRIVATE N_NIMCALL(NimStringDesc*, hello)(void);
+N_LIB_PRIVATE N_NIMCALL(NimStringDesc*, copyString)(NimStringDesc* src);
+static N_INLINE(void, nimFrame)(TFrame* s);
+N_LIB_PRIVATE N_NOINLINE(void, callDepthLimitReached__system_2997)(void);
+static N_INLINE(void, popFrame)(void);
 static N_INLINE(void, initStackBottomWith)(void* locals);
 N_LIB_PRIVATE N_NOINLINE(void, nimGC_setStackBottom)(void* theStackBottom);
 N_LIB_PRIVATE N_NIMCALL(void, systemDatInit000)(void);
 N_LIB_PRIVATE N_NIMCALL(void, systemInit000)(void);
 N_LIB_PRIVATE N_NIMCALL(void, NimMainModule)(void);
+STRING_LITERAL(TM__tRq9bIZvg1AcDZMSj01xXOQ_2, "nim hello", 9);
+extern TFrame* framePtr__system_2564;
+extern TFrame* framePtr__system_2564;
+extern TFrame* framePtr__system_2564;
+extern TFrame* framePtr__system_2564;
+extern TFrame* framePtr__system_2564;
+extern TFrame* framePtr__system_2564;
+static N_INLINE(void, nimFrame)(TFrame* s) {
+	{
+		if (!(framePtr__system_2564 == ((TFrame*) NIM_NIL))) goto LA3_;
+		(*s).calldepth = ((NI16) 0);
+	}
+	goto LA1_;
+	LA3_: ;
+	{
+		(*s).calldepth = (NI16)((*framePtr__system_2564).calldepth + ((NI16) 1));
+	}
+	LA1_: ;
+	(*s).prev = framePtr__system_2564;
+	framePtr__system_2564 = s;
+	{
+		if (!((*s).calldepth == ((NI16) 2000))) goto LA8_;
+		callDepthLimitReached__system_2997();
+	}
+	LA8_: ;
+}
+static N_INLINE(void, popFrame)(void) {
+	framePtr__system_2564 = (*framePtr__system_2564).prev;
+}
+N_LIB_PRIVATE N_NIMCALL(NimStringDesc*, hello)(void) {
+	NimStringDesc* result;
+	nimfr_("hello", "/home/hh128/dev/nim-android/android.nim");
+{	result = NIM_NIL;
+	nimln_(3, "/home/hh128/dev/nim-android/android.nim");
+	result = copyString(((NimStringDesc*) &TM__tRq9bIZvg1AcDZMSj01xXOQ_2));
+	goto BeforeRet_;
+	}BeforeRet_: ;
+	popFrame();
+	return result;
+}
 static N_INLINE(void, initStackBottomWith)(void* locals) {
 	nimGC_setStackBottom(locals);
 }
